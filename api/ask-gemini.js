@@ -1,18 +1,29 @@
-// 이 파일은 Netlify 서버에서만 실행됩니다.
-export default async function handler(request, response) {
-  if (request.method !== 'POST') {
-    return response.status(405).json({ error: 'Method Not Allowed' });
+// netlify/functions/ask-gemini.js
+const fetch = require("node-fetch");
+
+exports.handler = async function(event, context) {
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      body: JSON.stringify({ error: 'Method Not Allowed' }),
+    };
   }
 
-  const { prompt } = request.body;
+  // POST body는 JSON 문자열이므로 파싱 필요
+  const { prompt } = JSON.parse(event.body || '{}');
   if (!prompt) {
-    return response.status(400).json({ error: '질문(prompt)이 필요합니다.' });
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: '질문(prompt)이 필요합니다.' })
+    };
   }
 
-  // Vercel이 아닌 Netlify 환경 변수를 사용합니다.
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    return response.status(500).json({ error: '서버에 API 키가 설정되지 않았습니다.' });
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: '서버에 API 키가 설정되지 않았습니다.' })
+    };
   }
 
   const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
@@ -33,10 +44,16 @@ export default async function handler(request, response) {
     }
 
     const result = await geminiResponse.json();
-    return response.status(200).json(result);
+    return {
+      statusCode: 200,
+      body: JSON.stringify(result),
+    };
 
   } catch (error) {
     console.error('Internal Server Error:', error);
-    return response.status(500).json({ error: error.message });
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message }),
+    };
   }
-}
+};
