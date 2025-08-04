@@ -121,7 +121,6 @@
         </main>
     </div>
 
-    <!-- Modal for Interactive Q&A -->
     <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden z-50">
         <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col">
             <header class="p-4 border-b border-gray-200 flex justify-between items-center flex-shrink-0">
@@ -129,8 +128,7 @@
                 <button id="close-modal-btn" class="text-2xl font-bold text-gray-500 hover:text-gray-800">&times;</button>
             </header>
             <div id="modal-chat-container" class="p-6 flex-1 overflow-y-auto custom-scrollbar">
-                <!-- Chat messages will be appended here -->
-            </div>
+                </div>
             <footer class="p-4 bg-gray-50 border-t border-gray-200">
                 <div class="flex items-center">
                     <input type="text" id="modal-user-input" class="flex-1 border border-gray-300 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="질문을 입력하세요...">
@@ -144,7 +142,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const accordionItems = document.querySelectorAll('.accordion-item');
             const modalOverlay = document.getElementById('modal-overlay');
             const modalTitle = document.getElementById('modal-title');
             const closeModalBtn = document.getElementById('close-modal-btn');
@@ -154,44 +151,21 @@
 
             let currentTopicContent = '';
             let currentTopicTitle = '';
+            
+            // --- START: 수정된 부분 ---
+            const chapterSections = document.querySelectorAll('.chapter-section');
 
-            accordionItems.forEach(item => {
-                const header = item.querySelector('.accordion-header');
-                const content = item.querySelector('.accordion-content');
-                const icon = header.querySelector('span');
-                const askBtn = content.querySelector('.ask-question-btn');
+            chapterSections.forEach(section => {
+                const askBtn = section.querySelector('.ask-question-btn');
+                const titleElement = section.querySelector('.chapter-title');
+                const contentElement = section.querySelector('.summary-content');
 
-                header.addEventListener('click', () => {
-                    const isActive = header.classList.contains('active');
-
-                    accordionItems.forEach(otherItem => {
-                        otherItem.querySelector('.accordion-header').classList.remove('active');
-                        const otherContent = otherItem.querySelector('.accordion-content');
-                        otherContent.style.maxHeight = null;
-                        const otherIcon = otherItem.querySelector('.accordion-header span');
-                        if (otherIcon) {
-                           otherIcon.style.transform = 'rotate(0deg)';
-                           otherIcon.textContent = '＋';
-                        }
-                    });
-
-                    if (!isActive) {
-                        header.classList.add('active');
-                        content.style.maxHeight = content.scrollHeight + "px";
-                        if (icon) {
-                            icon.style.transform = 'rotate(45deg)';
-                            icon.textContent = '×';
-                        }
-                    }
-                });
-                
-                if (askBtn) {
+                if (askBtn && titleElement && contentElement) {
                      askBtn.addEventListener('click', (e) => {
                         e.stopPropagation(); 
                         
-                        currentTopicTitle = header.querySelector('h2').textContent.trim();
-                        const summaryElement = content.querySelector('.summary-content');
-                        currentTopicContent = summaryElement ? summaryElement.innerText.replace('이해를 돕는 질문하기', '').trim() : '';
+                        currentTopicTitle = titleElement.innerText.trim();
+                        currentTopicContent = contentElement.innerText.replace('이해를 돕는 질문하기', '').trim();
                         
                         modalTitle.textContent = `"${currentTopicTitle}" 질문하기`;
                         modalChatContainer.innerHTML = `<div class="flex justify-start mb-4"><div class="chat-bubble-bot p-3 rounded-lg max-w-lg"><p class="text-sm">안녕하세요! 선택하신 주제에 대해 궁금한 점을 질문해주세요.</p></div></div>`;
@@ -200,6 +174,7 @@
                     });
                 }
             });
+            // --- END: 수정된 부분 ---
             
             const addChatMessage = (text, sender) => {
                 const bubble = document.createElement('div');
