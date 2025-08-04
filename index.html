@@ -144,7 +144,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const askButtons = document.querySelectorAll('.ask-question-btn');
+            const accordionItems = document.querySelectorAll('.accordion-item');
             const modalOverlay = document.getElementById('modal-overlay');
             const modalTitle = document.getElementById('modal-title');
             const closeModalBtn = document.getElementById('close-modal-btn');
@@ -155,27 +155,61 @@
             let currentTopicContent = '';
             let currentTopicTitle = '';
 
-            askButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const chapterSection = button.closest('.chapter-section');
-                    currentTopicTitle = chapterSection.querySelector('.chapter-title').textContent.trim();
-                    const summaryElement = chapterSection.querySelector('.summary-content');
-                    currentTopicContent = summaryElement ? summaryElement.innerText.replace('이해를 돕는 질문하기', '').trim() : '';
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                const content = item.querySelector('.accordion-content');
+                const icon = header.querySelector('span');
+                const askBtn = content.querySelector('.ask-question-btn');
 
-                    modalTitle.textContent = `"${currentTopicTitle}" 질문하기`;
-                    modalChatContainer.innerHTML = `<div class="flex justify-start mb-4"><div class="chat-bubble-bot p-3 rounded-lg max-w-lg"><p class="text-sm">안녕하세요! 선택하신 주제에 대해 궁금한 점을 질문해주세요.</p></div></div>`;
-                    modalOverlay.classList.remove('hidden');
-                    modalUserInput.focus();
+                header.addEventListener('click', () => {
+                    const isActive = header.classList.contains('active');
+
+                    accordionItems.forEach(otherItem => {
+                        otherItem.querySelector('.accordion-header').classList.remove('active');
+                        const otherContent = otherItem.querySelector('.accordion-content');
+                        otherContent.style.maxHeight = null;
+                        const otherIcon = otherItem.querySelector('.accordion-header span');
+                        if (otherIcon) {
+                           otherIcon.style.transform = 'rotate(0deg)';
+                           otherIcon.textContent = '＋';
+                        }
+                    });
+
+                    if (!isActive) {
+                        header.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        if (icon) {
+                            icon.style.transform = 'rotate(45deg)';
+                            icon.textContent = '×';
+                        }
+                    }
                 });
+                
+                if (askBtn) {
+                     askBtn.addEventListener('click', (e) => {
+                        e.stopPropagation(); 
+                        
+                        currentTopicTitle = header.querySelector('h2').textContent.trim();
+                        const summaryElement = content.querySelector('.summary-content');
+                        currentTopicContent = summaryElement ? summaryElement.innerText.replace('이해를 돕는 질문하기', '').trim() : '';
+                        
+                        modalTitle.textContent = `"${currentTopicTitle}" 질문하기`;
+                        modalChatContainer.innerHTML = `<div class="flex justify-start mb-4"><div class="chat-bubble-bot p-3 rounded-lg max-w-lg"><p class="text-sm">안녕하세요! 선택하신 주제에 대해 궁금한 점을 질문해주세요.</p></div></div>`;
+                        modalOverlay.classList.remove('hidden');
+                        modalUserInput.focus();
+                    });
+                }
             });
-
+            
             const addChatMessage = (text, sender) => {
                 const bubble = document.createElement('div');
                 bubble.className = `p-3 rounded-lg max-w-lg mb-2 ${sender === 'user' ? 'chat-bubble-user self-end' : 'chat-bubble-bot self-start'}`;
                 bubble.innerHTML = `<p class="text-sm">${text}</p>`;
+
                 const messageWrapper = document.createElement('div');
                 messageWrapper.className = `flex mb-4 ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
                 messageWrapper.appendChild(bubble);
+
                 modalChatContainer.appendChild(messageWrapper);
                 modalChatContainer.scrollTop = modalChatContainer.scrollHeight;
             };
