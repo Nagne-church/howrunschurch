@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>장로교회 정치원리: 대화형 학습</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/heroicons/2.1.3/24/outline/academic-cap.svg" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
         html, body {
@@ -28,6 +27,7 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding: 0 1.5rem; /* transition을 위해 padding 초기값 설정 */
         }
         .custom-scrollbar::-webkit-scrollbar {
             width: 8px;
@@ -92,8 +92,6 @@
 
         <main id="summary-panel" class="flex-1 p-6 md:p-8 overflow-y-auto custom-scrollbar">
             <div class="space-y-4">
-                
-                <!-- Introduction -->
                 <div class="accordion-item border border-gray-200 rounded-lg overflow-hidden">
                     <div class="accordion-header flex justify-between items-center p-5 bg-gray-50 hover:bg-indigo-50 border-l-4 border-transparent">
                         <h2 class="text-xl font-bold text-gray-800 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3 text-indigo-600"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" /></svg>서론: 왜 교회 정치가 중요한가?</h2>
@@ -106,8 +104,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Chapter 1 -->
                 <div class="accordion-item border border-gray-200 rounded-lg overflow-hidden">
                     <div class="accordion-header flex justify-between items-center p-5 bg-gray-50 hover:bg-indigo-50 border-l-4 border-transparent">
                         <h2 class="text-xl font-bold text-gray-800 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3 text-indigo-600"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A11.953 11.953 0 0 1 12 13.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 0 3 12c0 .778.099 1.533.284 2.253m0 0" /></svg>제1장: 교회란 무엇인가?</h2>
@@ -125,8 +121,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Chapter 2 -->
                 <div class="accordion-item border border-gray-200 rounded-lg overflow-hidden">
                      <div class="accordion-header flex justify-between items-center p-5 bg-gray-50 hover:bg-indigo-50 border-l-4 border-transparent">
                         <h2 class="text-xl font-bold text-gray-800 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3 text-indigo-600"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.311a7.5 7.5 0 0 1-7.5 0c-1.255 0-2.443.29-3.5.832m14.5.002c1.057-.542 2.245-.832 3.5-.832a7.5 7.5 0 0 1-7.5 0m-4.5 0a12.06 12.06 0 0 0 4.5 0m-4.5 0a7.5 7.5 0 0 0-3.5.832m0 0c-1.057.542-2.245.832-3.5.832a7.5 7.5 0 0 0 7.5 0m-7.5 0a7.5 7.5 0 0 1 3.5.832M12 6.75a2.25 2.25 0 1 1 0 4.5 2.25 2.25 0 0 1 0-4.5zM12 6.75a2.25 2.25 0 0 0-2.25 2.25v.003c.004.001.006.001.009.001h4.482c.002-.001.005-.001.008-.001v-.003A2.25 2.25 0 0 0 12 6.75z" /></svg>제2장: 교회의 통치</h2>
@@ -144,8 +138,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Chapter 3 -->
                 <div class="accordion-item border border-gray-200 rounded-lg overflow-hidden">
                      <div class="accordion-header flex justify-between items-center p-5 bg-gray-50 hover:bg-indigo-50 border-l-4 border-transparent">
                         <h2 class="text-xl font-bold text-gray-800 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3 text-indigo-600"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" /></svg>제3장: 교회의 권세</h2>
@@ -163,8 +155,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Chapter 4 -->
                 <div class="accordion-item border border-gray-200 rounded-lg overflow-hidden">
                      <div class="accordion-header flex justify-between items-center p-5 bg-gray-50 hover:bg-indigo-50 border-l-4 border-transparent">
                         <h2 class="text-xl font-bold text-gray-800 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3 text-indigo-600"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m-7.5-2.962a3.75 3.75 0 0 1 5.25 0m4.5 0a3.75 3.75 0 0 1 5.25 0M4.5 19.5a3 3 0 0 1-3-3V8.25a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v8.25a3 3 0 0 1-3 3h-9Zm1.5-9a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" /></svg>제4장: 교회의 직분</h2>
@@ -181,8 +171,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Chapter 5 -->
                 <div class="accordion-item border border-gray-200 rounded-lg overflow-hidden">
                      <div class="accordion-header flex justify-between items-center p-5 bg-gray-50 hover:bg-indigo-50 border-l-4 border-transparent">
                         <h2 class="text-xl font-bold text-gray-800 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3 text-indigo-600"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" /></svg>제5장: 교회의 회의 (치리회)</h2>
@@ -203,12 +191,10 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </main>
     </div>
 
-    <!-- Modal for Interactive Q&A -->
     <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden z-50">
         <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col">
             <header class="p-4 border-b border-gray-200 flex justify-between items-center flex-shrink-0">
@@ -216,8 +202,7 @@
                 <button id="close-modal-btn" class="text-2xl font-bold text-gray-500 hover:text-gray-800">&times;</button>
             </header>
             <div id="modal-chat-container" class="p-6 flex-1 overflow-y-auto custom-scrollbar">
-                <!-- Chat messages will be appended here -->
-            </div>
+                </div>
             <footer class="p-4 bg-gray-50 border-t border-gray-200">
                 <div class="flex items-center">
                     <input type="text" id="modal-user-input" class="flex-1 border border-gray-300 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="질문을 입력하세요...">
@@ -230,164 +215,170 @@
     </div>
 
     <script>
-        const accordionItems = document.querySelectorAll('.accordion-item');
-        const modalOverlay = document.getElementById('modal-overlay');
-        const modalTitle = document.getElementById('modal-title');
-        const closeModalBtn = document.getElementById('close-modal-btn');
-        const modalChatContainer = document.getElementById('modal-chat-container');
-        const modalUserInput = document.getElementById('modal-user-input');
-        const modalSendBtn = document.getElementById('modal-send-btn');
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalTitle = document.getElementById('modal-title');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const modalChatContainer = document.getElementById('modal-chat-container');
+            const modalUserInput = document.getElementById('modal-user-input');
+            const modalSendBtn = document.getElementById('modal-send-btn');
 
-        let currentTopicContent = '';
-        let currentTopicTitle = '';
+            let currentTopicContent = '';
+            let currentTopicTitle = '';
 
-        accordionItems.forEach(item => {
-            const header = item.querySelector('.accordion-header');
-            const content = item.querySelector('.accordion-content');
-            const icon = header.querySelector('span');
-            const askBtn = content.querySelector('.ask-question-btn');
+            // 아코디언 메뉴 로직
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                const content = item.querySelector('.accordion-content');
+                const icon = header.querySelector('span');
 
-            header.addEventListener('click', () => {
-                const isActive = header.classList.contains('active');
-                
-                accordionItems.forEach(otherItem => {
-                    otherItem.querySelector('.accordion-header').classList.remove('active');
-                    otherItem.querySelector('.accordion-content').style.maxHeight = '0';
-                    otherItem.querySelector('.accordion-content').style.padding = '0';
-                    otherItem.querySelector('.accordion-header span').style.transform = 'rotate(0deg)';
-                    otherItem.querySelector('.accordion-header span').textContent = '＋';
+                header.addEventListener('click', () => {
+                    const isActive = header.classList.contains('active');
+
+                    // 모든 아코디언 아이템을 닫습니다.
+                    accordionItems.forEach(otherItem => {
+                        otherItem.querySelector('.accordion-header').classList.remove('active');
+                        otherItem.querySelector('.accordion-content').style.maxHeight = '0';
+                        // content.style.padding = '0 1.5rem' 대신 CSS에서 초기화
+                        const otherIcon = otherItem.querySelector('.accordion-header span');
+                        if (otherIcon) {
+                           otherIcon.style.transform = 'rotate(0deg)';
+                           otherIcon.textContent = '＋';
+                        }
+                    });
+
+                    // 현재 클릭한 아이템이 닫혀 있었다면 엽니다.
+                    if (!isActive) {
+                        header.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        if (icon) {
+                            icon.style.transform = 'rotate(45deg)';
+                            icon.textContent = '×';
+                        }
+                    }
                 });
+                
+                // "질문하기" 버튼 로직
+                const askBtn = content.querySelector('.ask-question-btn');
+                if (askBtn) {
+                     askBtn.addEventListener('click', (e) => {
+                        // 헤더 클릭 이벤트가 전파되는 것을 막습니다.
+                        e.stopPropagation(); 
+                        
+                        currentTopicTitle = header.querySelector('h2').textContent.trim();
+                        const summaryElement = content.querySelector('.summary-content');
+                        if (summaryElement) {
+                            currentTopicContent = summaryElement.innerText.replace('이해를 돕는 질문하기', '').trim();
+                        }
+                        
+                        modalTitle.textContent = `"${currentTopicTitle}" 질문하기`;
+                        modalChatContainer.innerHTML = `<div class="flex justify-start mb-4"><div class="chat-bubble-bot p-3 rounded-lg max-w-lg"><p class="text-sm">안녕하세요! 선택하신 주제에 대해 궁금한 점을 질문해주세요. 책의 내용에 기반하여 답변해 드리겠습니다.</p></div></div>`;
+                        modalOverlay.classList.remove('hidden');
+                        modalUserInput.focus();
+                    });
+                }
+            });
+            
+            // --- 모달 관련 로직 ---
+            const addChatMessage = (text, sender) => {
+                const bubble = document.createElement('div');
+                bubble.className = `p-3 rounded-lg max-w-lg mb-2 ${sender === 'user' ? 'chat-bubble-user self-end' : 'chat-bubble-bot self-start'}`;
+                bubble.innerHTML = `<p class="text-sm">${text}</p>`;
 
-                if (!isActive) {
-                    header.classList.add('active');
-                    content.style.padding = '1.5rem';
-                    content.style.maxHeight = content.scrollHeight + "px";
-                    icon.style.transform = 'rotate(45deg)';
-                    icon.textContent = '×';
+                const messageWrapper = document.createElement('div');
+                messageWrapper.className = `flex mb-4 ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
+                messageWrapper.appendChild(bubble);
+
+                modalChatContainer.appendChild(messageWrapper);
+                modalChatContainer.scrollTop = modalChatContainer.scrollHeight;
+            };
+
+            const showTypingIndicator = () => {
+                const typingIndicator = document.createElement('div');
+                typingIndicator.id = 'typing-indicator';
+                typingIndicator.className = 'flex justify-start mb-4';
+                typingIndicator.innerHTML = `<div class="chat-bubble-bot p-3 rounded-lg"><div class="flex items-center space-x-1"><span class="h-2 w-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span><span class="h-2 w-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span><span class="h-2 w-2 bg-gray-400 rounded-full animate-bounce"></span></div></div>`;
+                modalChatContainer.appendChild(typingIndicator);
+                modalChatContainer.scrollTop = modalChatContainer.scrollHeight;
+            };
+
+            const removeTypingIndicator = () => {
+                document.getElementById('typing-indicator')?.remove();
+            };
+
+            const callGeminiAPI = async (prompt) => {
+                // 이 부분은 서버(Netlify 함수 등)와 통신하는 로직입니다.
+                // 실제 API 호출을 위해서는 서버 측 코드가 별도로 필요합니다.
+                // '/api/ask-gemini'는 예시 경로이며, 실제 서버리스 함수 주소로 변경해야 합니다.
+                const apiUrl = '/api/ask-gemini';
+                const payload = { prompt: prompt };
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || `서버 요청 실패 (상태 코드: ${response.status})`);
+                    }
+
+                    const result = await response.json();
+                    if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts[0]) {
+                        return result.candidates[0].content.parts[0].text;
+                    } else {
+                        if (result.candidates && result.candidates[0].finishReason === 'SAFETY') {
+                            return "콘텐츠 생성 정책에 따라 답변을 생성할 수 없습니다.";
+                        }
+                        throw new Error("API 응답 구조가 올바르지 않습니다.");
+                    }
+                } catch (error) {
+                    console.error("API 호출 중 에러 발생:", error);
+                    // 사용자가 API 서버를 구축하지 않았을 가능성이 높으므로, 친절한 안내 메시지를 반환합니다.
+                    return `API 호출 중 오류가 발생했습니다. '질문하기' 기능을 사용하려면 서버(API)가 정상적으로 실행되어야 합니다. 현재는 프론트엔드 부분만 구현되어 있습니다.`;
+                }
+            };
+
+            const handleModalSend = async () => {
+                const question = modalUserInput.value.trim();
+                if (!question) return;
+
+                addChatMessage(question, 'user');
+                modalUserInput.value = '';
+                modalSendBtn.disabled = true;
+                showTypingIndicator();
+
+                try {
+                    const prompt = `당신은 개혁신학(Reformed Theology)에 정통한 신학자이자 '장로교회 정치원리' 전문가입니다. 사용자의 질문에 대해, 먼저 아래에 주어진 책의 요약 내용에 충실하게 답변해야 합니다. 그리고 개혁신학의 관점에서 내용을 보충하거나 신학적 의미를 더 깊이 설명하여 답변을 풍성하게 만들어 주세요. 예를 들어, 언약 신학, 하나님의 주권, 은혜의 방편 등의 개념을 활용할 수 있습니다. 답변은 항상 한국어로, 전문적이면서도 이해하기 쉬운 어조로 작성해주세요. 만약 주어진 요약 내용과 관련 없는 질문이라면, "선택하신 주제와 관련된 질문을 해주시면, 개혁신학의 관점에서 더 깊이 있는 답변을 드리겠습니다."라고 안내해주세요.\n\n### 주제: ${currentTopicTitle}\n\n### 요약 내용:\n${currentTopicContent}\n\n### 사용자 질문: "${question}"`;
+                    const botResponse = await callGeminiAPI(prompt);
+                    removeTypingIndicator();
+                    addChatMessage(botResponse.replace(/\n/g, '<br>'), 'bot');
+                } catch (error) {
+                    removeTypingIndicator();
+                    console.error('Error:', error);
+                    addChatMessage("오류가 발생했습니다. 잠시 후 다시 시도해주세요.", 'bot');
+                } finally {
+                    modalSendBtn.disabled = false;
+                    modalUserInput.focus();
+                }
+            };
+
+            modalSendBtn.addEventListener('click', handleModalSend);
+            modalUserInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault(); // Enter키로 인한 줄바꿈 방지
+                    handleModalSend();
                 }
             });
 
-            askBtn.addEventListener('click', () => {
-                currentTopicTitle = header.querySelector('h2').textContent.trim();
-                currentTopicContent = content.querySelector('.summary-content, div > p, div > h3').parentElement.innerText.replace('이해를 돕는 질문하기', '').trim();
-                modalTitle.textContent = `"${currentTopicTitle}" 질문하기`;
-                modalChatContainer.innerHTML = `<div class="flex justify-start mb-4"><div class="chat-bubble-bot p-3 rounded-lg max-w-lg"><p class="text-sm">안녕하세요! 선택하신 주제에 대해 궁금한 점을 질문해주세요. 책의 내용에 기반하여 답변해 드리겠습니다.</p></div></div>`;
-                modalOverlay.classList.remove('hidden');
-                modalUserInput.focus();
-            });
-        });
-
-        const addChatMessage = (text, sender) => {
-            const bubble = document.createElement('div');
-            bubble.className = `p-3 rounded-lg max-w-lg mb-2 ${sender === 'user' ? 'chat-bubble-user self-end' : 'chat-bubble-bot self-start'}`;
-            bubble.innerHTML = `<p class="text-sm">${text}</p>`;
-            
-            const messageWrapper = document.createElement('div');
-            messageWrapper.className = `flex mb-4 ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
-            messageWrapper.appendChild(bubble);
-
-            modalChatContainer.appendChild(messageWrapper);
-            modalChatContainer.scrollTop = modalChatContainer.scrollHeight;
-        };
-
-        const showTypingIndicator = () => {
-            const typingIndicator = document.createElement('div');
-            typingIndicator.id = 'typing-indicator';
-            typingIndicator.className = 'flex justify-start mb-4';
-            typingIndicator.innerHTML = `<div class="chat-bubble-bot p-3 rounded-lg"><div class="flex items-center space-x-1"><span class="h-2 w-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span><span class="h-2 w-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span><span class="h-2 w-2 bg-gray-400 rounded-full animate-bounce"></span></div></div>`;
-            modalChatContainer.appendChild(typingIndicator);
-            modalChatContainer.scrollTop = modalChatContainer.scrollHeight;
-        };
-
-        const removeTypingIndicator = () => {
-            document.getElementById('typing-indicator')?.remove();
-        };
-
-const callGeminiAPI = async (prompt) => {
-    // 이제 Google API가 아닌, 우리 Netlify 서버의 함수 주소로 요청합니다.
-    const apiUrl = `/api/ask-gemini`; 
-
-    // API 키는 더 이상 프론트엔드 코드에 없습니다.
-    const payload = { prompt: prompt };
-
-    let response;
-    try {
-        response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-            // 서버에서 보낸 에러 메시지를 더 자세히 확인합니다.
-            const errorData = await response.json();
-            throw new Error(errorData.error || `서버 요청 실패 (상태 코드: ${response.status})`);
-        }
-
-        const result = await response.json();
-        if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts[0]) {
-            return result.candidates[0].content.parts[0].text;
-        } else {
-            if (result.candidates && result.candidates[0].finishReason === 'SAFETY') {
-                return "콘텐츠 생성 정책에 따라 답변을 생성할 수 없습니다.";
-            }
-            throw new Error("API 응답 구조가 올바르지 않습니다.");
-        }
-    } catch (error) {
-        console.error("API 호출 중 에러 발생:", error);
-        // 사용자에게 보여줄 에러 메시지를 반환합니다.
-        return `오류가 발생했습니다: ${error.message}`;
-    }
-}
-
-
-            if (!success) throw new Error("API request failed multiple times.");
-
-            const result = await response.json();
-            if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts[0]) {
-                return result.candidates[0].content.parts[0].text;
-            } else {
-                if (result.candidates && result.candidates[0].finishReason === 'SAFETY') {
-                    return "콘텐츠 생성 정책에 따라 답변을 생성할 수 없습니다.";
+            closeModalBtn.addEventListener('click', () => modalOverlay.classList.add('hidden'));
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    modalOverlay.classList.add('hidden');
                 }
-                throw new Error("Invalid API response structure.");
-            }
-        };
-
-        const handleModalSend = async () => {
-            const question = modalUserInput.value.trim();
-            if (!question) return;
-
-            addChatMessage(question, 'user');
-            modalUserInput.value = '';
-            modalSendBtn.disabled = true;
-            showTypingIndicator();
-            
-            try {
-                const prompt = `당신은 개혁신학(Reformed Theology)에 정통한 신학자이자 '장로교회 정치원리' 전문가입니다. 사용자의 질문에 대해, 먼저 아래에 주어진 책의 요약 내용에 충실하게 답변해야 합니다. 그리고 개혁신학의 관점에서 내용을 보충하거나 신학적 의미를 더 깊이 설명하여 답변을 풍성하게 만들어 주세요. 예를 들어, 언약 신학, 하나님의 주권, 은혜의 방편 등의 개념을 활용할 수 있습니다. 답변은 항상 한국어로, 전문적이면서도 이해하기 쉬운 어조로 작성해주세요. 만약 주어진 요약 내용과 관련 없는 질문이라면, "선택하신 주제와 관련된 질문을 해주시면, 개혁신학의 관점에서 더 깊이 있는 답변을 드리겠습니다."라고 안내해주세요.\n\n### 주제: ${currentTopicTitle}\n\n### 요약 내용:\n${currentTopicContent}\n\n### 사용자 질문: "${question}"`;
-                const botResponse = await callGeminiAPI(prompt);
-                removeTypingIndicator();
-                addChatMessage(botResponse.replace(/\n/g, '<br>'), 'bot');
-            } catch (error) {
-                removeTypingIndicator();
-                console.error('Error:', error);
-                addChatMessage("오류가 발생했습니다. 잠시 후 다시 시도해주세요.", 'bot');
-            } finally {
-                modalSendBtn.disabled = false;
-                modalUserInput.focus();
-            }
-        };
-
-        modalSendBtn.addEventListener('click', handleModalSend);
-        modalUserInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') handleModalSend();
-        });
-
-        closeModalBtn.addEventListener('click', () => modalOverlay.classList.add('hidden'));
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) {
-                modalOverlay.classList.add('hidden');
-            }
+            });
         });
     </script>
 </body>
