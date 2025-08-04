@@ -141,6 +141,7 @@
     </div>
 
     <script>
+      
         document.addEventListener('DOMContentLoaded', () => {
             const modalOverlay = document.getElementById('modal-overlay');
             const modalTitle = document.getElementById('modal-title');
@@ -152,7 +153,6 @@
             let currentTopicContent = '';
             let currentTopicTitle = '';
             
-            // --- START: 수정된 부분 ---
             const chapterSections = document.querySelectorAll('.chapter-section');
 
             chapterSections.forEach(section => {
@@ -174,7 +174,6 @@
                     });
                 }
             });
-            // --- END: 수정된 부분 ---
             
             const addChatMessage = (text, sender) => {
                 const bubble = document.createElement('div');
@@ -243,7 +242,8 @@
                 showTypingIndicator();
 
                 try {
-                    const prompt = \`당신은 개혁신학(Reformed Theology)에 정통한 신학자이자 '장로교회 정치원리' 전문가입니다. 사용자의 질문에 대해, 먼저 아래에 주어진 책의 요약 내용에 충실하게 답변해야 합니다. 그리고 개혁신학의 관점에서 내용을 보충하거나 신학적 의미를 더 깊이 설명하여 답변을 풍성하게 만들어 주세요. 예를 들어, 언약 신학, 하나님의 주권, 은혜의 방편 등의 개념을 활용할 수 있습니다. 답변은 항상 한국어로, 전문적이면서도 이해하기 쉬운 어조로 작성해주세요. 만약 주어진 요약 내용과 관련 없는 질문이라면, "선택하신 주제와 관련된 질문을 해주시면, 개혁신학의 관점에서 더 깊이 있는 답변을 드리겠습니다."라고 안내해주세요.\n\n### 주제: \${currentTopicTitle}\n\n### 요약 내용:\n\${currentTopicContent}\n\n### 사용자 질문: "\${question}"\`;
+                    // 템플릿 리터럴 시작 부분의 불필요한 역슬래시(\)를 제거했습니다.
+                    const prompt = `당신은 개혁신학(Reformed Theology)에 정통한 신학자이자 '장로교회 정치원리' 전문가입니다. 사용자의 질문에 대해, 먼저 아래에 주어진 책의 요약 내용에 충실하게 답변해야 합니다. 그리고 개혁신학의 관점에서 내용을 보충하거나 신학적 의미를 더 깊이 설명하여 답변을 풍성하게 만들어 주세요. 예를 들어, 언약 신학, 하나님의 주권, 은혜의 방편 등의 개념을 활용할 수 있습니다. 답변은 항상 한국어로, 전문적이면서도 이해하기 쉬운 어조로 작성해주세요. 만약 주어진 요약 내용과 관련 없는 질문이라면, "선택하신 주제와 관련된 질문을 해주시면, 개혁신학의 관점에서 더 깊이 있는 답변을 드리겠습니다."라고 안내해주세요.\n\n### 주제: ${currentTopicTitle}\n\n### 요약 내용:\n${currentTopicContent}\n\n### 사용자 질문: "${question}"`;
                     const botResponse = await callGeminiAPI(prompt);
                     removeTypingIndicator();
                     addChatMessage(botResponse.replace(/\n/g, '<br>'), 'bot');
@@ -272,6 +272,7 @@
                 }
             });
         });
+
     </script>
 </body>
 </html>
