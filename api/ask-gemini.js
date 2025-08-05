@@ -17,7 +17,7 @@ export default async function handler(request, response) {
     return response.status(500).json({ error: '서버에 API 키가 설정되지 않았습니다.' });
   }
 
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro2.5:generateContent?key=${apiKey}`;
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${apiKey}`;
 
   try {
     // Google Gemini API로 요청을 보냅니다.
@@ -44,4 +44,5 @@ export default async function handler(request, response) {
     return response.status(500).json({ error: error.message });
   }
 }
+
 
