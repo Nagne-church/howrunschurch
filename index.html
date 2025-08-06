@@ -3,276 +3,479 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>장로교회 정치원리: 대화형 학습</title>
+    <title>그리스도 중심의 교회 정치 원리</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
-        html, body { height: 100%; overflow: hidden; }
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f3f4f6; }
-        .chapter-title { font-size: 1.75rem; font-weight: 700; margin-top: 2rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 3px solid #4f46e5; color: #1e1b4b; display: flex; align-items: center; }
-        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #e2e8f0; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #a0aec0; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #718096; }
-        #modal-overlay.hidden { display: none; }
-        .chat-bubble-user { background-color: #4f46e5; color: white; }
-        .chat-bubble-bot { background-color: #e5e7eb; color: #1f2937; }
-        .summary-content h3 { font-size: 1.2rem; font-weight: 700; margin-top: 1.25rem; margin-bottom: 0.75rem; color: #312e81; padding-bottom: 4px; border-bottom: 1px solid #c7d2fe; }
-        .summary-content p, .summary-content li { color: #374151; line-height: 1.8; margin-bottom: 1rem; }
-        .summary-content ul { list-style-type: '✓ '; list-style-position: inside; padding-left: 0.5rem; }
-        .summary-content blockquote { border-left: 4px solid #818cf8; padding: 1rem; margin: 1.5rem 0; font-style: italic; color: #4b5563; background-color: #f9fafb; border-radius: 0 8px 8px 0; }
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f0f2f5;
+        }
+        .infographic-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border-left-width: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .infographic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .icon-bg {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .icon-bg svg {
+            width: 32px;
+            height: 32px;
+        }
+        .ask-question-btn {
+            background-color: #4f46e5;
+            color: white;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            margin-top: 1.5rem;
+            cursor: pointer;
+        }
+        .ask-question-btn:hover {
+            background-color: #4338ca;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
+        }
+        .modal-container {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active .modal-container {
+            transform: scale(1);
+        }
+        .modal-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        .chat-bubble {
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin-bottom: 12px;
+            max-width: 85%;
+            word-wrap: break-word;
+        }
+        .user-bubble {
+            background-color: #eef2ff;
+            color: #4338ca;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        .ai-bubble {
+            background-color: #f3f4f6;
+            color: #1f2937;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #9ca3af;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
     </style>
 </head>
-<body class="flex items-center justify-center p-4">
-    <div class="w-full max-w-5xl h-[95vh] flex flex-col bg-white rounded-2xl shadow-2xl border border-gray-200">
-        <header class="bg-gradient-to-r from-indigo-700 to-indigo-900 text-white p-5 rounded-t-2xl shadow-lg flex-shrink-0">
-            <h1 class="text-3xl font-bold text-center">장로교회 정치원리: 대화형 학습</h1>
-            <p class="text-md text-center text-indigo-200 mt-1">"예수님은 교회를 어떻게 다스리시는가" 상세 요약</p>
+<body class="p-4 sm:p-6 md:p-10">
+    <main class="max-w-4xl mx-auto">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 mb-3">그리스도 중심의 교회 정치 원리</h1>
+            <p class="text-lg sm:text-xl text-gray-600">성경에 나타난 교회의 본질, 정치, 권세, 직분, 그리고 치리회에 대한 심층 해설</p>
         </header>
 
-        <main id="summary-panel" class="flex-1 p-6 md:p-8 overflow-y-auto custom-scrollbar">
-            
-            <div class="chapter-section">
-                <h2 class="chapter-title"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mr-3 text-indigo-600"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" /></svg>서론: 왜 교회 정치가 중요한가?</h2>
-                <div class="summary-content">
-                    <p>교회 정치는 단순히 행정 절차나 규칙의 문제가 아니라, 그리스도인의 제자도에 있어 핵심적인 부분입니다. 올바른 교회 정치는 교회의 머리이신 예수 그리스도의 지혜와 영광을 드러내기 때문입니다. 성경은 그리스도와 교회의 관계가 분리될 수 없음을 강조하며(엡 5:23), 교회는 그리스도의 통치가 가시적으로 나타나는 '그리스도의 왕국'(WCF 25.2)입니다. 또한, 교회는 지상대위임령(마 28:18-20)을 수행하는 유일한 기관이며, 이 사명을 감당하기 위해서는 성경적인 질서와 통치가 반드시 필요합니다. 따라서 교회 정치를 아는 것은 그리스도를 더 깊이 알고 그분의 몸 된 교회를 더 잘 섬기는 길입니다.</p>
-                    <button class="ask-question-btn mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition">이해를 돕는 질문하기</button>
+        <section id="chapter1" class="infographic-card" style="border-color: #3b82f6;">
+            <div class="p-6 sm:p-8 flex items-start gap-6">
+                <div class="icon-bg" style="background-color: #dbeafe;">
+                    <svg style="color: #3b82f6;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+                    </svg>
                 </div>
-            </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">제 1장: 교회의 본질 (What Is the Church?)</h2>
+                    <div class="space-y-4 text-gray-700 leading-relaxed">
+                        <p>교회는 하나님의 구속 계획의 중심에 있으며, 그리스도인의 삶에 필수적인 역할을 합니다. 교회의 본질을 이해하는 것은 그 정부와 권세를 이해하는 첫걸음입니다.</p>
+                        
+                        <h3 class="text-lg font-semibold mt-6 mb-2">하나님의 단일한 백성</h3>
+                        <p>성경은 구약의 이스라엘과 신약의 교회가 별개의 백성이 아니라, 구속사 전체를 아우르는 하나님의 <strong>단일한 백성</strong>임을 가르칩니다. 로마서 11장에서 바울은 하나님의 백성을 하나의 감람나무에 비유합니다. 믿음 없는 가지(유대인)는 꺾이고, 이방인 신자들이 그 자리에 접붙임 되지만, 나무 자체는 하나입니다. 이는 교회가 이스라엘을 대체한 것이 아니라, 하나님의 언약 백성이 확장된 것임을 보여줍니다.</p>
 
-            <div class="chapter-section">
-                <h2 class="chapter-title"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mr-3 text-indigo-600"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A11.953 11.953 0 0 1 12 13.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 0 3 12c0 .778.099 1.533.284 2.253m0 0" /></svg>제1장: 교회란 무엇인가?</h2>
-                <div class="summary-content">
-                    <h3>⛪ 하나님의 한 백성: 구약과 신약의 연속성</h3>
-                    <p>교회는 신약 시대에 갑자기 등장한 조직이 아니라, 구약의 이스라엘로부터 이어지는 하나님의 단일한 백성입니다. 하나님은 아브라함과 맺으신 언약을 폐기하신 것이 아니라, 그리스도 안에서 그 언약을 성취하고 모든 민족에게로 확장하셨습니다. 로마서 11장의 '올리브 나무 비유'는 이를 명확히 보여줍니다. 믿지 않는 원래 가지(유대인)는 꺾이고, 그 자리에 야생 올리브 나무 가지인 이방인이 접붙여졌지만, 나무의 뿌리(아브라함 언약과 구속의 약속)는 동일합니다. 이는 교회가 구속사의 중심에 있는 하나님의 영원한 계획의 일부임을 증거합니다.</p>
-                    <h3>👁️ 보이는 교회와 보이지 않는 교회</h3>
-                    <p>성경은 교회를 두 가지 측면에서 설명합니다. '보이지 않는 교회'는 시간과 공간을 초월하여 오직 하나님만이 아시는 모든 시대의 택함 받은 성도들의 총합으로, 흠 없는 그리스도의 신부입니다. 반면 '보이는 교회'는 이 땅에서 참된 신앙을 공적으로 고백하는 자들과 그들의 자녀들로 구성된 제도적 교회입니다. 이 두 교회는 겹치지만 완전히 동일하지는 않습니다. 보이는 교회 안에는 알곡과 가라지가 섞여 있듯, 중생하지 않은 사람이 있을 수 있습니다. 이 구분은 교회 내에 위선과 배교가 존재할 수 있음을 설명하며, 우리가 사람의 마음을 판단할 수 없고 오직 '믿을 만한 신앙고백'을 근거로 회원을 받아야 함을 가르쳐줍니다.</p>
-                    <h3>🤝 교회 회원권의 필연성과 자격</h3>
-                    <p>그리스도인의 제자도에 있어 교회 회원권은 선택이 아닌 필수입니다. 신약의 수많은 "서로"라는 명령(서로 사랑하라, 서로 용납하라 등)은 구체적인 공동체 안에서의 언약적 관계를 전제합니다. 회원권은 교회의 다스림과 권징 아래 자신을 복종시키며, 성도의 교제를 통해 함께 성장하겠다는 공적인 약속입니다. 회원의 자격은 그리스도에 대한 신앙을 공적으로 고백하는 사람과, 언약의 연속성 안에서 그들의 자녀에게 주어집니다. 이것이 유아세례의 핵심적인 성경적 근거가 됩니다.</p>
-                    <button class="ask-question-btn mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition">이해를 돕는 질문하기</button>
-                </div>
-            </div>
-            
-            <div class="chapter-section">
-                 <h2 class="chapter-title"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mr-3 text-indigo-600"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.311a7.5 7.5 0 0 1-7.5 0c-1.255 0-2.443.29-3.5.832m14.5.002c1.057-.542 2.245-.832 3.5-.832a7.5 7.5 0 0 1-7.5 0m-4.5 0a12.06 12.06 0 0 0 4.5 0m-4.5 0a7.5 7.5 0 0 0-3.5.832m0 0c-1.057.542-2.245.832-3.5.832a7.5 7.5 0 0 0 7.5 0m-7.5 0a7.5 7.5 0 0 1 3.5.832M12 6.75a2.25 2.25 0 1 1 0 4.5 2.25 2.25 0 0 1 0-4.5zM12 6.75a2.25 2.25 0 0 0-2.25 2.25v.003c.004.001.006.001.009.001h4.482c.002-.001.005-.001.008-.001v-.003A2.25 2.25 0 0 0 12 6.75z" /></svg>제2장: 교회의 통치</h2>
-                <div class="summary-content">
-                     <h3>📜 신적 권위의 원리 (Jure Divino)</h3>
-                     <p>교회의 정치 형태는 인간의 지혜나 시대적 상황에 따라 결정되는 '인적 권위(Jure Humano)'의 산물이 아닙니다. 교회는 그리스도께서 성경에 명확히 제시하신 원리, 규범, 모범에 따라 세워져야 하는 '신적 권위(Jure Divino)'를 따릅니다. 이는 교회의 주권이 인간이나 회중이 아닌 오직 그리스도께 있음을 의미하며, 교회의 모든 구조와 결정은 성경이라는 헌법에 근거해야 함을 뜻합니다.</p>
-                     <h3>👑 그리스도의 통치: 본질적 통치와 중보적 통치</h3>
-                     <p>그리스도의 통치는 두 가지로 이해됩니다. '본질적 통치'는 그분이 성자 하나님으로서 온 우주를 다스리시는 것을 의미합니다. '중보적 통치'는 부활 승천하심으로 얻으신 권세로, 자신의 피로 사신 교회를 특별하게 다스리시는 것을 말합니다. 교회는 바로 이 중보적 통치의 중심에 있습니다.</p>
-                     <h3>🏛️ 교회와 국가의 분리</h3>
-                     <p>교회와 국가는 하나님께서 각기 다른 목적과 권세를 부여하신 두 개의 구별된 기관입니다. 국가는 일반 은총의 영역에서 '칼'의 권세로 사회 질서를 유지하고, 교회는 특별 은총의 영역에서 '열쇠'의 권세(말씀 선포와 권징)로 영적 질서를 다룹니다. 예수께서 "내 나라는 이 세상에 속한 것이 아니니라"(요 18:36)라고 말씀하셨듯이, 교회는 국가의 정치적 수단을 사용해서는 안 되며, 국가 또한 교회의 신앙과 양심의 문제에 관여해서는 안 됩니다.</p>
-                     <button class="ask-question-btn mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition">이해를 돕는 질문하기</button>
-                </div>
-            </div>
-            
-            <div class="chapter-section">
-                 <h2 class="chapter-title"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mr-3 text-indigo-600"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" /></svg>제3장: 교회의 권세</h2>
-                <div class="summary-content">
-                     <h3>🔑 권세의 원천과 본질</h3>
-                     <p>교회의 모든 권세는 오직 중보자이신 예수 그리스도로부터 나옵니다. 따라서 교회의 권세는 새로운 법을 만드는 '입법적(Legislative)' 권세가 아니라, 이미 주어진 그리스도의 법(성경)을 선포하고 적용하는 '사역적(Ministerial)이며 선언적(Declarative)'인 권세입니다. 이는 교회가 성경을 넘어서 성도들의 양심을 억압할 수 없음을 의미하며, 교회의 모든 결정은 성경의 권위 아래 있어야 합니다.</p>
-                     <h3>🤲 권세의 위임과 행사</h3>
-                     <p>그리스도의 권세는 교회 전체(다스리는 자와 다스림을 받는 자 모두)에 주어졌습니다. 이 권세는 두 가지 방식으로 행사됩니다. 회중은 직분자를 선택함으로써 권세를 행사하고, 선택받은 직분자들은 교회를 다스리고 섬김으로써 권세를 행사합니다. 직분자의 권세는 '질서의 권세'(설교, 성례 등 개별적 행사)와 '치리의 권세'(권징, 규칙 제정 등 회의체를 통한 공동 행사)로 나뉩니다.</p>
-                     <h3>🎯 치리권의 세 가지 범위</h3>
-                     <p>치리회(당회, 노회, 총회)는 세 가지 영역에서 권세를 행사합니다: 1) **교리(Doctrine):** 신앙고백서 채택, 이단 규정 등. 2) **질서(Order):** 예배와 정치의 구체적인 절차 제정. 3) **권징(Discipline):** 죄에 대한 징계와 회복.</p>
-                     <button class="ask-question-btn mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition">이해를 돕는 질문하기</button>
-                </div>
-            </div>
+                        <h3 class="text-lg font-semibold mt-6 mb-2">보이는 교회와 보이지 않는 교회</h3>
+                        <p>성경은 교회를 두 가지 관점에서 설명하는데, 이는 '보이는 교회'(Visible Church)와 '보이지 않는 교회'(Invisible Church)라는 신학적 구분으로 이해할 수 있습니다.</p>
+                        <ul class="list-disc list-inside space-y-2 pl-2">
+                            <li><strong>보이지 않는 교회:</strong> 오직 하나님만이 아시는 모든 시대의 택함 받은 자들의 총체입니다. 이는 그리스도의 신부이자 몸으로서, 그 수가 영원히 고정되어 있습니다.</li>
+                            <li><strong>보이는 교회:</strong> 전 세계에서 참된 신앙을 고백하는 모든 사람들과 그들의 자녀들로 구성됩니다. 이곳은 우리가 실제로 보고 경험하는 교회 공동체이며, 참된 신자뿐 아니라 불신자도 섞여 있을 수 있습니다.</li>
+                        </ul>
+                        <p>이 구분은 신자가 아닌 사람이 교회 회원일 수 있는 이유와, 참된 신자가 은혜에서 결코 완전히 떨어질 수 없다는 교리를 이해하는 데 도움을 줍니다.</p>
 
-            <div class="chapter-section">
-                 <h2 class="chapter-title"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mr-3 text-indigo-600"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m-7.5-2.962a3.75 3.75 0 0 1 5.25 0m4.5 0a3.75 3.75 0 0 1 5.25 0M4.5 19.5a3 3 0 0 1-3-3V8.25a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v8.25a3 3 0 0 1-3 3h-9Zm1.5-9a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" /></svg>제4장: 교회의 직분</h2>
-                <div class="summary-content">
-                     <h3>📜 직분의 기원과 종류</h3>
-                     <p>모든 직분은 지위나 권력이 아니라, 승천하신 그리스도께서 자신의 교회를 세우고 성도를 온전하게 하기 위해 주신 선물입니다(엡 4:11). 직분은 크게 두 종류로 나뉩니다. 교회의 기초를 놓기 위한 한시적인 '특별 직분'(사도, 선지자)은 신약 성경이 완성됨에 따라 종료되었습니다. 그리고 교회가 항상 필요로 하는 영구적인 '일반 직분'(장로, 집사)이 있습니다.</p>
-                     <h3>👨‍💼 일반 직분: 장로와 집사</h3>
-                     <p><strong>장로(Elder)</strong>는 '감독', '목자'로도 불리며, 교회를 다스리고(치리) 영적으로 감독하는 직분입니다. 장로 직분 안에는 두 가지 구별된 역할이 있습니다. '가르치는 장로'(목사)는 말씀 선포와 성례 집례에 전념하고, '다스리는 장로'(치리 장로)는 목사와 동등한 권위로 교회의 치리와 목양에 동참합니다. 성경은 창조 질서에 근거하여 이 직분을 남성에게만 허락합니다(딤전 2:11-14).</p>
-                     <p><strong>집사(Deacon)</strong>는 긍휼과 봉사의 직분입니다. 초대교회에서 사도들이 말씀과 기도에 전념하기 위해 구제와 재정 관리를 맡길 사람을 세운 것에서 유래합니다(행 6:1-6). 집사는 교회의 재정을 관리하고 연약한 자들을 돌봄으로써 교회의 사랑과 연합을 실질적으로 표현합니다.</p>
-                     <button class="ask-question-btn mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition">이해를 돕는 질문하기</button>
+                        <h3 class="text-lg font-semibold mt-6 mb-2">교회 회원의 자격과 필요성</h3>
+                        <p>그리스도인은 반드시 보이는 교회의 회원이 되어야 합니다. 이는 성경의 여러 가르침에서 명백히 드러납니다. 지상 대위임령(마 28:18-20)은 회심자를 모아 가르치는 공동체를 전제하며, 사도행전은 회심한 자들이 즉시 신자들의 공동체에 '더해졌다'(행 2:47)고 기록합니다. 또한, 성도의 교제, 권징, 성찬, 그리고 장로들의 돌봄(히 13:17)과 같은 명령들은 모두 유형적인 교회 회원이라는 관계를 전제합니다.</p>
+                        <p><strong>누가 회원인가?</strong> 보이는 교회의 회원은 <strong>신앙을 고백하는 자들과 그들의 자녀들</strong>입니다. 아브라함 언약(창 17장)에서 하나님은 아브라함뿐만 아니라 그의 후손에게도 하나님이 되겠다고 약속하셨습니다. 이 언약의 원리는 신약에서도 지속되어, 신자의 자녀들은 언약 공동체의 일원으로 인정받으며, 언약의 표(구약의 할례, 신약의 세례)를 받을 자격이 있습니다.</p>
+                    </div>
+                    <button class="ask-question-btn">이 장에 대해 질문하기</button>
                 </div>
             </div>
+        </section>
 
-            <div class="chapter-section">
-                 <h2 class="chapter-title"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mr-3 text-indigo-600"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" /></svg>제5장: 교회의 회의 (치리회)</h2>
-                <div class="summary-content">
-                     <h3>⚖️ 단계별 회의체와 그 필요성</h3>
-                     <p>교회는 개별 지역 교회의 집합을 넘어 그리스도 안에서 하나인 유기적인 몸입니다. 이 가시적 연합을 표현하고 유지하기 위해 개별 교회를 넘어서는 상위 회의체(치리회)가 필요합니다. 사도행전 15장의 예루살렘 공회는 여러 지역 교회 대표들이 모여 교리적 문제를 해결하고 권위 있는 결정을 내린 성경적 모범입니다. 장로교 정치는 이를 따라 단계별 회의를 통해 운영됩니다.</p>
-                     <ul class="list-disc list-inside text-gray-700 mb-4">
-                         <li><strong>당회 (Session):</strong> 한 개별 교회의 영적, 행정적 문제를 다스리는 기초 회의입니다.</li>
-                         <li><strong>노회 (Presbytery):</strong> 특정 지역 내 여러 교회들의 연합과 공동 사역을 관장하는 상급 회의입니다.</li>
-                         <li><strong>총회 (General Assembly):</strong> 한 교단의 전체 교회를 대표하는 최고 회의입니다.</li>
-                     </ul>
-                     <h3>🤝 회의체의 관계</h3>
-                     <p>모든 회의체는 본질적으로 동일한 종류의 권세를 가지며, 관할 범위만 다릅니다. 하급 회의는 상급 회의의 감독과 통제를 받음으로써 교회의 연합과 질서가 유지됩니다. 상급 회의의 합법적인 결정은 단순한 조언이 아니라 하급 회의와 소속 교인들에게 권위를 가지며 순종해야 할 의무를 지닙니다.</p>
-                     <button class="ask-question-btn mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition">이해를 돕는 질문하기</button>
+        <section id="chapter2" class="infographic-card" style="border-color: #8b5cf6;">
+            <div class="p-6 sm:p-8 flex items-start gap-6">
+                <div class="icon-bg" style="background-color: #ede9fe;">
+                    <svg style="color: #8b5cf6;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">제 2장: 교회의 정치 (The Government of the Church)</h2>
+                    <div class="space-y-4 text-gray-700 leading-relaxed">
+                        <p>교회는 단순한 인간 조직이 아니라, 왕이신 그리스도께서 직접 다스리시는 신적인 기관입니다. 따라서 교회의 정치는 인간의 편의가 아닌, 성경에 계시된 하나님의 방식에 따라 이루어져야 합니다.</p>
+                        
+                        <h3 class="text-lg font-semibold mt-6 mb-2">그리스도의 중보적 통치</h3>
+                        <p>예수 그리스도께서는 두 종류의 통치권을 가지십니다. 첫째는 성자 하나님으로서 가지시는 <strong>본질적 통치권</strong>이며, 둘째는 부활 승천 후 메시야로서 받으신 <strong>중보적 통치권</strong>(마 28:18)입니다. 교회를 다스리시는 것은 바로 이 중보적 통치권에 해당하며, 이는 교회를 위해 온 세상을 다스리는 권세를 포함합니다.</p>
+
+                        <h3 class="text-lg font-semibold mt-6 mb-2">교회와 국가의 분리</h3>
+                        <p>그리스도의 나라는 "이 세상에 속한 것이 아니므로"(요 18:36), 교회의 정부는 국가 정부와 명확히 구별됩니다. 예수님께서는 "가이사의 것은 가이사에게, 하나님의 것은 하나님께 바치라"(마 22:21)고 말씀하심으로써 두 영역의 독립성을 인정하셨습니다. 국가는 자연법에 따라 사회 질서를 유지하는 역할을 하며 강제력(칼)을 사용하지만, 교회는 오직 성경의 법에 따라 영적인 권세(열쇠)만을 사용합니다. 따라서 국가는 교회의 신앙적 문제에 개입할 수 없으며, 교회 역시 국가의 정치적 사안에 직접 관여하지 않습니다.</p>
+
+                        <h3 class="text-lg font-semibold mt-6 mb-2">신적 기원의 원리 (Jure Divino)</h3>
+                        <p>장로교 정치의 핵심은 교회의 정부 형태가 인간의 지혜나 편의(jure humano)가 아닌, <strong>하나님의 신적인 권리(jure divino)</strong>에 의해 성경에 제정되었다는 믿음입니다. 그리스도께서는 사도들을 통해 교회가 따라야 할 정치의 원칙, 규범, 그리고 본보기를 성경에 명확히 제시하셨습니다. 따라서 교회는 시대나 문화에 따라 임의로 정부 형태를 바꿀 수 없으며, 성경의 패턴에 충실해야 합니다.</p>
+                        
+                        <h3 class="text-lg font-semibold mt-6 mb-2">상황적 요소의 적용</h3>
+                        <p>성경이 모든 세부사항을 규정하는 것은 아닙니다. 예배 시간이나 회의 정족수와 같이 본질적이지 않은 '상황적 요소'(circumstances)들은 "덕을 세우고"(고전 14:26), "적당하게 하고 질서 있게"(고전 14:40) 하라는 성경의 일반 원칙에 따라 교회가 지혜롭게 정할 수 있습니다.</p>
+                    </div>
+                    <button class="ask-question-btn">이 장에 대해 질문하기</button>
                 </div>
             </div>
+        </section>
 
-            <div class="chapter-section">
-                <h2 class="chapter-title"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mr-3 text-indigo-600"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9a9.094 9.094 0 0 1-3.741-.479 3 3 0 0 1-4.682-2.72m15.164-4.522a3.75 3.75 0 0 0-5.25 0m-4.5 0a3.75 3.75 0 0 0-5.25 0M19.5 4.5a3 3 0 0 0-3-3h-9a3 3 0 0 0-3 3v8.25a3 3 0 0 0 3 3h9a3 3 0 0 0 3-3V4.5Z" /></svg>제6장: 결론</h2>
-                <div class="summary-content">
-                     <h3>✨ 교회 정치의 궁극적 목적</h3>
-                     <p>교회 정치의 모든 원리와 실제는 단 하나의 목적, 즉 교회의 유일한 왕이신 예수 그리스도께 영광을 돌리는 것을 향합니다. 성경적인 교회 정치는 그리스도의 현재적 통치를 가시적으로 드러내는 표지이며, 그분의 재림을 소망하게 하는 신앙의 기둥입니다. 따라서 교회 정치는 단순한 행정이나 제도가 아니라, 우리의 신앙고백 그 자체입니다.</p>
-                     <h3>🙏 직분자와 성도의 자세</h3>
-                     <p>직분자는 그리스도의 사랑으로 자신에게 맡겨진 책임을 성실히 감당해야 하며, 성도는 교회의 직분자를 존중하고 그들의 성경적인 가르침과 치리에 순종함으로써 그리스도의 통치에 참여해야 합니다. 이처럼 직분자와 성도가 각자의 자리에서 그리스도의 다스림에 순종할 때, 교회는 평안 가운데 든든히 서 가고, 복음의 사명을 온전히 감당하게 될 것입니다.</p>
-                     <button class="ask-question-btn mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition">이해를 돕는 질문하기</button>
+        <section id="chapter3" class="infographic-card" style="border-color: #ec4899;">
+            <div class="p-6 sm:p-8 flex items-start gap-6">
+                <div class="icon-bg" style="background-color: #fce7f3;">
+                    <svg style="color: #ec4899;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">제 3장: 교회의 권세 (The Power of the Church)</h2>
+                    <div class="space-y-4 text-gray-700 leading-relaxed">
+                        <p>교회의 권세는 세상의 권세와 그 성격이 근본적으로 다릅니다. 이 권세는 섬김을 위한 것이며, 오직 그리스도로부터 나옵니다.</p>
+
+                        <h3 class="text-lg font-semibold mt-6 mb-2">권세의 원천과 위임</h3>
+                        <ul class="list-disc list-inside space-y-2 pl-2">
+                            <li><strong>원천:</strong> 교회의 모든 권세는 오직 중보자이신 예수 그리스도로부터 나옵니다. 교회는 스스로 법을 만들거나 권위를 창출할 수 없습니다.</li>
+                            <li><strong>위임:</strong> 그리스도께서는 이 권세를 교회 전체, 즉 다스리는 자와 다스림을 받는 자 모두에게 위임하셨습니다. 일반 성도들은 이 권세를 '직분자를 선택'하는 것을 통해 행사하며, 선택된 직분자들은 교회를 다스리는 것을 통해 권세를 행사합니다.</li>
+                        </ul>
+
+                        <h3 class="text-lg font-semibold mt-6 mb-2">권세의 성격: 목양적이며 선언적</h3>
+                        <p>교회의 권세는 입법적이거나 강제적이지 않고, <strong>목양적(ministerial)이며 선언적(declarative)</strong>입니다. 즉, 교회는 새로운 법을 만드는 것이 아니라, 이미 성경에 기록된 그리스도의 법을 선포하고 적용할 뿐입니다. 교회의 모든 결정은 성경의 가르침에 부합할 때에만 권위를 가집니다. 이는 개인의 양심을 부당하게 속박하는 것을 막고, 오직 하나님만이 양심의 주인이심을 인정하는 중요한 원리입니다.</p>
+
+                        <h3 class="text-lg font-semibold mt-6 mb-2">권세의 세 가지 영역</h3>
+                        <p>교회의 사법권(power of jurisdiction)은 세 가지 영역으로 나타납니다.</p>
+                        <ol class="list-decimal list-inside space-y-2 pl-2">
+                            <li><strong>교리권 (Power of Doctrine):</strong> 신앙고백을 작성하고, 오류를 경계하며, 신앙 양심의 문제를 판단하는 권세입니다.</li>
+                            <li><strong>질서권 (Power of Order):</strong> 예배, 정치, 권징의 구체적인 절차와 같은 '상황적 요소'들을 성경의 일반 원리에 따라 정하는 권세입니다.</li>
+                            <li><strong>권징권 (Power of Discipline):</strong> 그리스도의 법에 순종하도록 요구하며, 회원을 받아들이고, 불순종하는 자를 성찬에서 제외하거나 출교하는 권세입니다. 권징의 목적은 징벌이 아니라 회복과 교회의 순결입니다.</li>
+                        </ol>
+                    </div>
+                    <button class="ask-question-btn">이 장에 대해 질문하기</button>
                 </div>
             </div>
+        </section>
 
-        </main>
-    </div>
+        <section id="chapter4" class="infographic-card" style="border-color: #10b981;">
+            <div class="p-6 sm:p-8 flex items-start gap-6">
+                <div class="icon-bg" style="background-color: #d1fae5;">
+                    <svg style="color: #10b981;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-4.67c.12-.318.232-.656.328-1.014a.75.75 0 011.498.07z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">제 4장: 교회의 직분 (The Offices of the Church)</h2>
+                    <div class="space-y-4 text-gray-700 leading-relaxed">
+                        <p>그리스도께서는 교회의 덕을 세우고 성도를 온전하게 하기 위해 직분자들을 선물로 주셨습니다(엡 4:11-12). 성경은 이 직분들을 명확히 구분합니다.</p>
+                        
+                        <h3 class="text-lg font-semibold mt-6 mb-2">특별 직분과 일반 직분</h3>
+                        <ul class="list-disc list-inside space-y-2 pl-2">
+                            <li><strong>특별 직분 (Extraordinary Office):</strong> 교회의 기초를 놓기 위해 한시적으로 존재했던 직분으로 <strong>사도</strong>와 <strong>선지자</strong>가 해당됩니다. 이들은 하나님의 새로운 계시를 전달하는 역할을 했으며, 신약성경이 완성된 후에는 더 이상 존재하지 않습니다.</li>
+                            <li><strong>일반 직분 (Ordinary Office):</strong> 교회가 존속하는 동안 항상 존재하는 항존직으로 <strong>장로(Elder)</strong>와 <strong>집사(Deacon)</strong>가 있습니다.</li>
+                        </ul>
 
-    <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden z-50">
-        <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col">
-            <header class="p-4 border-b border-gray-200 flex justify-between items-center flex-shrink-0">
+                        <h3 class="text-lg font-semibold mt-6 mb-2">장로 (Elder)</h3>
+                        <p>장로는 교회의 영적 감독과 다스림을 책임지는 직분입니다. 장로는 두 종류로 구분되지만, 이는 직분의 등급 차이가 아니라 기능의 차이입니다.</p>
+                        <ul class="list-disc list-inside space-y-2 pl-2">
+                            <li><strong>가르치는 장로 (Teaching Elder):</strong> 목사. 설교와 가르치는 사역에 전념하며, 이를 위해 재정적 지원을 받습니다. 성례를 집례할 권한을 가집니다.</li>
+                            <li><strong>다스리는 장로 (Ruling Elder):</strong> 교회의 치리와 영적 돌봄에 목사와 함께 참여합니다. 모든 장로는 가르칠 능력이 있어야 하지만(딤전 3:2), 다스리는 장로는 주로 치리에 집중합니다.</li>
+                        </ul>
+                        <p>성경은 감독(Bishop/Overseer)이라는 용어를 장로와 동일한 직분을 가리키는 말로 사용합니다(행 20:17, 28). 따라서 장로 위에 별도의 감독 직분을 두는 것은 비성경적입니다.</p>
+                        
+                        <h3 class="text-lg font-semibold mt-6 mb-2">집사 (Deacon)</h3>
+                        <p>집사는 다스리는 직분이 아닌, <strong>섬기는 직분</strong>입니다. 사도행전 6장에서 사도들이 말씀과 기도에 전념하기 위해 구제와 재정 관리를 담당할 일곱 사람을 세운 것에서 그 기원을 찾을 수 있습니다. 집사의 주된 임무는 교회의 자비를 실천하고, 재정을 관리하며, 가난하고 도움이 필요한 성도들을 돌보는 것입니다. 이는 교회의 물리적, 실제적 필요를 채우는 영적인 사역입니다.</p>
+
+                        <h3 class="text-lg font-semibold mt-6 mb-2">직분과 여성</h3>
+                        <p>성경은 장로 직분을 남성에게만 제한합니다. 디모데전서 2장 12절은 여성이 남성을 가르치거나 다스리는 것을 금하는데, 이는 창조 질서(아담이 먼저 지음 받음)와 타락의 역사(하와가 먼저 속음)에 근거한 항구적인 원리입니다. 집사 직분에 대해서는 신학적 견해가 나뉘지만, 디모데전서 3장의 자격 요건과 직분이 가진 권위의 성격을 고려할 때, 집사 직분 역시 남성에게만 해당된다고 보는 것이 성경의 전체적인 가르침과 일관됩니다. 이는 여성의 가치를 폄하하는 것이 아니라, 창조 질서에 따른 기능의 구별을 의미합니다.</p>
+                    </div>
+                    <button class="ask-question-btn">이 장에 대해 질문하기</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="chapter5" class="infographic-card" style="border-color: #f97316;">
+            <div class="p-6 sm:p-8 flex items-start gap-6">
+                <div class="icon-bg" style="background-color: #ffedd5;">
+                    <svg style="color: #f97316;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h6.375M9 12h6.375M9 17.25h6.375" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">제 5장: 교회의 치리회 (The Courts of the Church)</h2>
+                    <div class="space-y-4 text-gray-700 leading-relaxed">
+                        <p>장로교 정치는 개별 교회가 독립적으로 존재하는 것이 아니라, 더 넓은 연합체 안에서 함께 다스림을 받는 구조를 가집니다. 이는 교회의 가시적 통일성을 실현하는 성경적인 방식입니다.</p>
+                        
+                        <h3 class="text-lg font-semibold mt-6 mb-2">상회(上會) 제도의 성경적 근거</h3>
+                        <p>사도행전은 예루살렘 교회가 수많은 성도로 구성되어 여러 가정 교회로 모였지만, 여전히 '하나의 교회'(행 8:1)로 불렸음을 보여줍니다. 이들은 사도들과 장로들로 구성된 단일한 치리 구조 아래 있었습니다. 더 나아가, <strong>예루살렘 공의회(행 15장)</strong>는 상회 제도의 결정적인 모델을 제시합니다. 안디옥 교회에서 발생한 교리적 문제를 해결하기 위해, 그들은 상회인 예루살렘의 사도들과 장로들에게 대표를 파견했습니다. 공의회는 신중한 토론을 거쳐 결정을 내렸고, 이 결정은 모든 교회에 권위를 가졌습니다. 이는 개별 교회의 문제를 더 넓은 범위의 치리회가 다룰 수 있고, 그 결정에 순종해야 함을 보여줍니다.</p>
+
+                        <h3 class="text-lg font-semibold mt-6 mb-2">치리회의 종류와 관계</h3>
+                        <p>장로교회는 일반적으로 세 단계의 치리회(Court)를 가집니다.</p>
+                        <ol class="list-decimal list-inside space-y-2 pl-2">
+                            <li><strong>당회 (Session):</strong> 개별 교회를 다스리는 치리회로, 그 교회의 목사(가르치는 장로)와 치리 장로들로 구성됩니다.</li>
+                            <li><strong>노회 (Presbytery):</strong> 특정 지역 내의 모든 교회들을 감독하는 치리회로, 그 지역의 모든 목사들과 각 교회를 대표하는 치리 장로들(총대)로 구성됩니다.</li>
+                            <li><strong>총회 (General Assembly):</strong> 교단 전체의 최고 치리회로, 각 노회에서 파송한 목사 및 장로 총대들로 구성됩니다.</li>
+                        </ol>
+                        <p>이들 치리회는 계급적인 관계가 아니라, <strong>동일한 권세를 공유</strong>하지만 관할 범위가 다른 관계입니다. 즉, 노회의 권세가 당회보다 본질적으로 우월한 것이 아니라, 더 넓은 영역의 일을 다룰 뿐입니다. 하회(당회)는 상회(노회, 총회)의 감독과 결정에 순종할 의무가 있으며, 이는 교회의 연합과 질서를 유지하는 핵심 원리입니다.</p>
+                    </div>
+                    <button class="ask-question-btn">이 장에 대해 질문하기</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="qa-modal" class="modal-overlay">
+        <div class="modal-container">
+            <header class="modal-header">
                 <h2 id="modal-title" class="text-xl font-bold text-gray-800">질문하기</h2>
-                <button id="close-modal-btn" class="text-2xl font-bold text-gray-500 hover:text-gray-800">&times;</button>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl font-light">&times;</button>
             </header>
-            <div id="modal-chat-container" class="p-6 flex-1 overflow-y-auto custom-scrollbar">
-                </div>
-            <footer class="p-4 bg-gray-50 border-t border-gray-200">
-                <div class="flex items-center">
-                    <input type="text" id="modal-user-input" class="flex-1 border border-gray-300 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="질문을 입력하세요...">
-                    <button id="modal-send-btn" class="ml-3 bg-indigo-600 text-white rounded-full p-3 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-indigo-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /></svg>
+            <main id="modal-body" class="modal-body">
+                <div id="chat-window" class="flex flex-col h-full space-y-4">
+                    </div>
+            </main>
+            <footer class="modal-footer">
+                <form id="qa-form" class="flex items-center gap-2">
+                    <input id="question-input" type="text" class="flex-grow p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="여기에 질문을 입력하세요..." autocomplete="off">
+                    <button type="submit" class="bg-indigo-600 text-white p-2 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
                     </button>
-                </div>
+                </form>
             </footer>
         </div>
     </div>
 
     <script>
-      
         document.addEventListener('DOMContentLoaded', () => {
-            const modalOverlay = document.getElementById('modal-overlay');
-            const modalTitle = document.getElementById('modal-title');
+            const modal = document.getElementById('qa-modal');
             const closeModalBtn = document.getElementById('close-modal-btn');
-            const modalChatContainer = document.getElementById('modal-chat-container');
-            const modalUserInput = document.getElementById('modal-user-input');
-            const modalSendBtn = document.getElementById('modal-send-btn');
-
-            let currentTopicContent = '';
-            let currentTopicTitle = '';
+            const qaForm = document.getElementById('qa-form');
+            const questionInput = document.getElementById('question-input');
+            const chatWindow = document.getElementById('chat-window');
+            const modalTitle = document.getElementById('modal-title');
             
-            const chapterSections = document.querySelectorAll('.chapter-section');
+            let currentChapterTitle = '';
+            let currentChapterContext = '';
 
-            chapterSections.forEach(section => {
-                const askBtn = section.querySelector('.ask-question-btn');
-                const titleElement = section.querySelector('.chapter-title');
-                const contentElement = section.querySelector('.summary-content');
+            document.querySelectorAll('.ask-question-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const card = e.target.closest('.infographic-card');
+                    currentChapterTitle = card.querySelector('h2').innerText;
+                    
+                    const contentDiv = card.querySelector('div > div');
+                    currentChapterContext = Array.from(contentDiv.children)
+                        .map(el => el.innerText.trim())
+                        .filter(text => text)
+                        .join('\n\n');
 
-                if (askBtn && titleElement && contentElement) {
-                     askBtn.addEventListener('click', (e) => {
-                        e.stopPropagation(); 
-                        
-                        currentTopicTitle = titleElement.innerText.trim();
-                        currentTopicContent = contentElement.innerText.replace('이해를 돕는 질문하기', '').trim();
-                        
-                        modalTitle.textContent = `"${currentTopicTitle}" 질문하기`;
-                        modalChatContainer.innerHTML = `<div class="flex justify-start mb-4"><div class="chat-bubble-bot p-3 rounded-lg max-w-lg"><p class="text-sm">안녕하세요! 선택하신 주제에 대해 궁금한 점을 질문해주세요.</p></div></div>`;
-                        modalOverlay.classList.remove('hidden');
-                        modalUserInput.focus();
-                    });
+                    modalTitle.textContent = `${currentChapterTitle}`;
+                    chatWindow.innerHTML = `
+                        <div class="chat-bubble ai-bubble">
+                            안녕하세요! <strong>${currentChapterTitle}</strong>에 대해 무엇이든 물어보세요.
+                        </div>
+                    `;
+                    openModal();
+                });
+            });
+
+            function openModal() {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => questionInput.focus(), 300);
+            }
+
+            function closeModal() {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
                 }
             });
-            
-            const addChatMessage = (text, sender) => {
-                const bubble = document.createElement('div');
-                bubble.className = `p-3 rounded-lg max-w-lg mb-2 ${sender === 'user' ? 'chat-bubble-user self-end' : 'chat-bubble-bot self-start'}`;
-                bubble.innerHTML = `<p class="text-sm">${text}</p>`;
 
-                const messageWrapper = document.createElement('div');
-                messageWrapper.className = `flex mb-4 ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
-                messageWrapper.appendChild(bubble);
+            qaForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const userQuestion = questionInput.value.trim();
+                if (!userQuestion) return;
 
-                modalChatContainer.appendChild(messageWrapper);
-                modalChatContainer.scrollTop = modalChatContainer.scrollHeight;
-            };
+                appendMessage(userQuestion, 'user');
+                questionInput.value = '';
+                showTypingIndicator();
 
-            const showTypingIndicator = () => {
-                const typingIndicator = document.createElement('div');
-                typingIndicator.id = 'typing-indicator';
-                typingIndicator.className = 'flex justify-start mb-4';
-                typingIndicator.innerHTML = `<div class="chat-bubble-bot p-3 rounded-lg"><div class="flex items-center space-x-1"><span class="h-2 w-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span><span class="h-2 w-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span><span class="h-2 w-2 bg-gray-400 rounded-full animate-bounce"></span></div></div>`;
-                modalChatContainer.appendChild(typingIndicator);
-                modalChatContainer.scrollTop = modalChatContainer.scrollHeight;
-            };
+                const finalPrompt = `
+                    당신은 [콘텐츠 주제]에 대해 설명하는 전문 AI 어시스턴트입니다. 아래에 명시된 두 가지 규칙의 우선순위를 반드시 지켜서 사용자의 질문에 답변해 주세요.
 
-            const removeTypingIndicator = () => {
-                document.getElementById('typing-indicator')?.remove();
-            };
+                    [규칙 1: 주어진 자료 우선의 원칙]
+                    - 최우선적으로, 아래에 제공되는 "[강의 노트 내용]"에 근거하여 답변을 생성해야 합니다.
+                    - 자료에 명시된 사실과 논리를 바탕으로 질문에 직접적으로 그리고 자연스럽게 답해주세요.
 
-            const callGeminiAPI = async (prompt) => {
-                const apiUrl = '/api/ask-gemini'; 
-                const payload = { prompt: prompt };
+                    [규칙 2: 지식 확장 및 보충의 원칙]
+                    - 만약 "[강의 노트 내용]"만으로 답변하기에 정보가 불충분하거나 관련 내용이 없을 경우에는, 당신의 전통적 개혁신학의 전문 지식을 활용하여 답변을 보충할 수 있습니다.(반드시 전통 개혁신학에 근거해야 합니다.)
+                    - 이 경우, 보충된 내용이 원래 자료에 없었음을 명확히 하기 위해 "보충 설명을 드리자면..." 과 같이 서술을 시작해주세요.
+
+                    ---
+                    [강의 노트 제목]: ${currentChapterTitle}
+                    ---
+                    [강의 노트 내용]:
+                    ${currentChapterContext}
+                    ---
+                    [사용자 질문]:
+                    ${userQuestion}
+                `;
 
                 try {
-                    const response = await fetch(apiUrl, {
+                    const response = await fetch('/api/ask-gemini', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
+                        body: JSON.stringify({ prompt: finalPrompt })
                     });
 
                     if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(errorData.error || `서버 요청 실패 (상태 코드: ${response.status})`);
+                        throw new Error(`HTTP error! status: ${response.status}`);
                     }
 
-                    const result = await response.json();
-                    if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts[0]) {
-                        return result.candidates[0].content.parts[0].text;
-                    } else {
-                        if (result.candidates && result.candidates[0].finishReason === 'SAFETY') {
-                            return "콘텐츠 생성 정책에 따라 답변을 생성할 수 없습니다.";
-                        }
-                        throw new Error("API 응답 구조가 올바르지 않습니다.");
+                    const data = await response.json();
+                    
+                    // Safe navigation to extract text
+                    const aiResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (aiResponse === undefined) {
+                        throw new Error("Invalid response structure from API. Text part is missing.");
                     }
-                } catch (error) {
-                    console.error("API 호출 중 에러 발생:", error);
-                    return `API 호출 중 오류가 발생했습니다. 이 기능을 사용하려면 서버(Netlify/Vercel)에 프로젝트가 정상적으로 배포되고 환경 변수(API 키)가 설정되어야 합니다.`;
-                }
-            };
-
-            const handleModalSend = async () => {
-                const question = modalUserInput.value.trim();
-                if (!question) return;
-
-                addChatMessage(question, 'user');
-                modalUserInput.value = '';
-                modalSendBtn.disabled = true;
-                showTypingIndicator();
-
-                try {
-                    // 템플릿 리터럴 시작 부분의 불필요한 역슬래시(\)를 제거했습니다.
-                    const prompt = `당신은 개혁신학(Reformed Theology)에 정통한 신학자이자 '장로교회 정치원리' 전문가입니다. 사용자의 질문에 대해, 먼저 아래에 주어진 책의 요약 내용에 충실하게 답변해야 합니다. 그리고 개혁신학의 관점에서 내용을 보충하거나 신학적 의미를 더 깊이 설명하여 답변을 풍성하게 만들어 주세요. 예를 들어, 언약 신학, 하나님의 주권, 은혜의 방편 등의 개념을 활용할 수 있습니다. 답변은 항상 한국어로, 전문적이면서도 이해하기 쉬운 어조로 작성해주세요. 만약 주어진 요약 내용과 관련 없는 질문이라면, "선택하신 주제와 관련된 질문을 해주시면, 개혁신학의 관점에서 더 깊이 있는 답변을 드리겠습니다."라고 안내해주세요.\n\n### 주제: ${currentTopicTitle}\n\n### 요약 내용:\n${currentTopicContent}\n\n### 사용자 질문: "${question}"`;
-                    const botResponse = await callGeminiAPI(prompt);
+                    
                     removeTypingIndicator();
-                    addChatMessage(botResponse.replace(/\n/g, '<br>'), 'bot');
-                } catch (error) {
-                    removeTypingIndicator();
-                    console.error('Error:', error);
-                    addChatMessage("오류가 발생했습니다. 잠시 후 다시 시도해주세요.", 'bot');
-                } finally {
-                    modalSendBtn.disabled = false;
-                    modalUserInput.focus();
-                }
-            };
+                    appendMessage(aiResponse, 'ai');
 
-            modalSendBtn.addEventListener('click', handleModalSend);
-            modalUserInput.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter' && !event.shiftKey) {
-                    event.preventDefault();
-                    handleModalSend();
+                } catch (error) {
+                    console.error('Error fetching AI response:', error);
+                    removeTypingIndicator();
+                    appendMessage('죄송합니다. 답변을 가져오는 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.', 'ai');
                 }
             });
 
-            closeModalBtn.addEventListener('click', () => modalOverlay.classList.add('hidden'));
-            modalOverlay.addEventListener('click', (e) => {
-                if (e.target === modalOverlay) {
-                    modalOverlay.classList.add('hidden');
+            function appendMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                const bubbleClass = sender === 'user' ? 'user-bubble' : 'ai-bubble';
+                messageDiv.className = `chat-bubble ${bubbleClass} flex flex-col`;
+                
+                // Simple markdown to HTML conversion
+                let htmlText = text
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+                
+                htmlText = htmlText
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n/g, '<br>');
+
+                messageDiv.innerHTML = htmlText;
+                chatWindow.appendChild(messageDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+            
+            function showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.id = 'typing-indicator';
+                typingDiv.className = 'chat-bubble ai-bubble typing-indicator';
+                typingDiv.innerHTML = '<span></span><span></span><span></span>';
+                chatWindow.appendChild(typingDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+
+            function removeTypingIndicator() {
+                const indicator = document.getElementById('typing-indicator');
+                if (indicator) {
+                    indicator.remove();
                 }
-            });
+            }
         });
-
     </script>
 </body>
 </html>
